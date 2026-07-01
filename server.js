@@ -2,17 +2,19 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+//try mvc archi
+const blogRoutes = require("./routes/blogRoutes");
+
 const app = express();
 const PORT = process.env.PORT;
 
-app.get("/about/blogs", (req, res) => {
-  const blog = [
-    { id: 1, title: "blog1", author: "shaurya" },
-    { id: 2, title: "blog2", author: "swarnim" },
-  ];
-  res.json(blog);
-});
+//middlewear
+app.use(express.json());
 
+//routes
+app.use("/api", blogRoutes);
+
+//database connection
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
