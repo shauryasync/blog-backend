@@ -1,12 +1,12 @@
 const Blog = require("../models/Blog");
 
 const createBlog = async (req, res) => {
-  const { title, content, author } = req.body;
+  const { title, content } = req.body;
 
   const blog = await Blog.create({
     title,
     content,
-    author,
+    author: req.user._id,
   });
 
   res.status(201).json(blog);
@@ -47,6 +47,8 @@ const getBlogById = async (req, res) => {
 const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
+    const blog = await Blog.findById(id);
+
     const updatedBlog = await Blog.findByIdAndUpdate(id, req.body, {
       returnDocument: "after",
       runValidators: true,
@@ -57,8 +59,16 @@ const updateBlog = async (req, res) => {
         message: "Blog Not Found",
       });
     }
+
+    if (blog.author.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "You are not allowed to modify this blog",
+      });
+    }
+
     res.status(200).json(updatedBlog);
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "Server Error",
     });
@@ -68,14 +78,25 @@ const updateBlog = async (req, res) => {
 const deleteBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteBlog = await Blog.findByIdAndDelete(id);
+    const blog = await Blog.findById(id);
+    const deletedBlog = await Blog.findByIdAndDelete(id);
 
-    if (!deleteBlog) {
-      return res.status(404).josn({
+    if (!deletedBlog) {
+      return res.status(404).json({
         message: "Blog Not Found",
       });
     }
+    if (blog.author.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        message: "You are not allowed to modify this blog",
+      });
+    }
+
+    res.status(200).json({
+      message: "Blog Deleted Successfully",
+    });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: "Server Error",
     });

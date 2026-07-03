@@ -10,14 +10,14 @@ const {
   deleteBlog,
 } = require("../controllers/blogController");
 
-router.post("/blogs", createBlog);
+router.post("/blogs", protect, createBlog);
 
 router.get("/blogs", protect, getAllBlogs);
 
-router.get("/blogs/:id", getBlogById);
+router.get("/blogs/:id", protect, getBlogById);
 
-router.put("/blogs/:id", updateBlog);
+router.put("/blogs/:id", protect, updateBlog);
 
-router.delete("/blogs/:id", deleteBlog);
+router.delete("/blogs/:id", protect, deleteBlog);
 
 module.exports = router;
