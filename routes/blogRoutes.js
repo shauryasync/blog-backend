@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const protect = require("../middleware/authMiddleware");
 
 const {
   createBlog,
@@ -11,7 +12,7 @@ const {
 
 router.post("/blogs", createBlog);
 
-router.get("/blogs", getAllBlogs);
+router.get("/blogs", protect, getAllBlogs);
 
 router.get("/blogs/:id", getBlogById);
 

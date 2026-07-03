@@ -4,6 +4,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 //try mvc archi
 const blogRoutes = require("./routes/blogRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -11,8 +12,11 @@ const PORT = process.env.PORT;
 //middlewear
 app.use(express.json());
 
-//routes
+//Blog Route
 app.use("/api", blogRoutes);
+
+//User Route
+app.use("/api/users", userRoutes);
 
 //database connection
 mongoose
