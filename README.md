@@ -68,7 +68,7 @@ PORT=5000
 Clone the repository
 
 ```bash
-git clone YOUR_BACKEND_REPO_LINK
+git clone https://github.com/shauryasync/blog-backend
 ```
 
 Install dependencies
