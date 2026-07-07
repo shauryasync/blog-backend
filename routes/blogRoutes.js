@@ -12,9 +12,9 @@ const {
 
 router.post("/blogs", protect, createBlog);
 
-router.get("/blogs", protect, getAllBlogs);
+router.get("/blogs", getAllBlogs);
 
-router.get("/blogs/:id", protect, getBlogById);
+router.get("/blogs/:id", getBlogById);
 
 router.put("/blogs/:id", protect, updateBlog);
 

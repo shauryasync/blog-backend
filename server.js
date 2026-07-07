@@ -8,8 +8,10 @@ const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT;
+const cors = require("cors");
 
-//middlewear
+//middleware
+app.use(cors());
 app.use(express.json());
 
 //Blog Route
